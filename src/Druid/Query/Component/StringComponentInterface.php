@@ -4,7 +4,6 @@ namespace Druid\Query\Component;
 
 interface StringComponentInterface
 {
-
     /**
      * @return string
      */
