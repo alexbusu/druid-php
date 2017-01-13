@@ -31,7 +31,6 @@ namespace Druid\Query\Aggregation;
 
 use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\Granularity\SimpleGranularity;
-use Druid\Query\Component\GranularityInterface;
 use Druid\Query\Component\HavingInterface;
 use Druid\Query\Component\LimitSpecInterface;
 use Druid\Query\Exception\RequiredArgumentException;
