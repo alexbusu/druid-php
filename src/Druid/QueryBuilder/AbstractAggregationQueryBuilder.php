@@ -29,12 +29,9 @@
 
 namespace Druid\QueryBuilder;
 
-use Druid\Query\Component\DataSource\TableDataSource;
-use Druid\Query\Component\DataSourceInterface;
-use Druid\Query\Component\Granularity\SimpleGranularity;
-use Druid\Query\Component\GranularityInterface;
-use Druid\Query\Component\Interval\Interval;
-use Druid\Query\Component\FilterInterface;
+use Druid\Query\Component\Factory\AggregatorFactory;
+use Druid\Query\Component\Factory\HavingFactory;
+use Druid\Query\Component\Factory\PostAggregatorFactory;
 use Druid\Query\Component\PostAggregatorInterface;
 use Druid\Query\Component\AggregatorInterface;
 
@@ -43,56 +40,29 @@ use Druid\Query\Component\AggregatorInterface;
  */
 abstract class AbstractAggregationQueryBuilder extends AbstractQueryBuilder
 {
-    /**
-     * @param string|DataSourceInterface $dataSource
-     *
-     * @return $this
-     */
-    public function setDataSource($dataSource)
-    {
-        if ($dataSource instanceof DataSourceInterface) {
-            return $this->addComponent('dataSource', $dataSource);
-        }
 
-        // the default
-        return $this->addComponent('dataSource', new TableDataSource($dataSource));
+    /**
+     * @return AggregatorFactory
+     */
+    public function aggregator()
+    {
+        return new AggregatorFactory();
     }
 
     /**
-     * @param string|GranularityInterface $granularity
-     *
-     * @return $this
+     * @return PostAggregatorFactory
      */
-    public function setGranularity($granularity)
+    public function postAggregator()
     {
-        if ($granularity instanceof GranularityInterface) {
-            return $this->addComponent('granularity', $granularity);
-        } elseif (is_string($granularity)) {
-            return $this->addComponent('granularity', new SimpleGranularity($granularity));
-        }
-        return $this;
+        return new PostAggregatorFactory();
     }
 
     /**
-     * @param \DateTime $start
-     * @param \DateTime $end
-     * @param bool $useZuluTime
-     *
-     * @return $this
+     * @return HavingFactory
      */
-    public function addInterval(\DateTime $start, \DateTime $end, $useZuluTime = false)
+    public function having()
     {
-        return $this->addComponent('intervals', new Interval($start, $end, $useZuluTime));
-    }
-
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return $this
-     */
-    public function setFilter(FilterInterface $filter)
-    {
-        return $this->addComponent('filter', $filter);
+        return new HavingFactory();
     }
 
     /**
