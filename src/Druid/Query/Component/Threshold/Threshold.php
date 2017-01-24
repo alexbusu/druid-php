@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 09.01.2017
- * Time: 12:29
- */
 
 namespace Druid\Query\Component\Threshold;
 
