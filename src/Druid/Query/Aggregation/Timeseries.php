@@ -65,7 +65,7 @@ class Timeseries extends AbstractAggregationQuery
      */
     public function preSerialize()
     {
-        $this->descending = $this->descending->getDescending();
+        $this->descending = $this->descending->isDescending();
     }
 
     /**

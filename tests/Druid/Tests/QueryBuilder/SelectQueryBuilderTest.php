@@ -73,7 +73,7 @@ class SelectQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('male', $query->getFilter()->getValue());
         $this->assertEquals('dim1', $query->getDimensions()[0]);
         $this->assertInstanceOf(DefaultDimensionSpec::class, $query->getDimensions()[1]);
-        $this->assertTrue($query->getDescending()->getDescending());
+        $this->assertTrue($query->getDescending()->isDescending());
         $this->assertEquals('clicks', $query->getMetrics()[0]);
         $this->assertInstanceOf(PagingSpec::class, $query->getPagingSpec());
     }
