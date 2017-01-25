@@ -22,6 +22,7 @@ class PagingSpec implements PagingSpecInterface
 
     /**
      * @var bool
+     * @Serializer\Accessor(getter="getSerializerFromNext")
      */
     private $fromNext;
 
@@ -99,5 +100,15 @@ class PagingSpec implements PagingSpecInterface
             ];
         }
         return [];
+    }
+
+    /**
+     * Returns TRUE or NULL (will either appear in serialized json query
+     * with value 'true' of will not appear at all)
+     * @return bool|null
+     */
+    public function getSerializerFromNext()
+    {
+        return $this->isFromNext() ?: null;
     }
 }
