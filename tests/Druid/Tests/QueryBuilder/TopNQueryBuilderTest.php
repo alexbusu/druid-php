@@ -91,6 +91,6 @@ class TopNQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('average', $query->getPostAggregations()[0]->getName());
         $this->assertEquals(MetricInterface::TYPE_DIMENSION, $query->getMetric()->getType());
         $this->assertEquals(DimensionTopNMetric::ORDERING_NUMERIC, $query->getMetric()->getOrdering());
-        $this->assertEquals(50, $query->getThreshold());
+        $this->assertEquals(50, $query->getSerializedThreshold());
     }
 }
