@@ -46,6 +46,7 @@ class TopN extends AbstractAggregationQuery
     /**
      * An integer defining the N in the topN (i.e. how many results you want in the top list)
      * @var ThresholdInterface
+     * @Serializer\Accessor(getter="getSerializedThreshold")
      */
     private $threshold;
 
@@ -100,11 +101,19 @@ class TopN extends AbstractAggregationQuery
     }
 
     /**
-     * @return int
+     * @return ThresholdInterface
      */
     public function getThreshold()
     {
-        return (int)(string)$this->threshold;
+        return $this->threshold;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSerializedThreshold()
+    {
+        return $this->threshold ? (int)$this->threshold->__toString() : 0;
     }
 
     /**
