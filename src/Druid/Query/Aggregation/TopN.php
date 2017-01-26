@@ -33,6 +33,7 @@ use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\MetricInterface;
 use Druid\Query\Component\ThresholdInterface;
 use Druid\Query\Exception\RequiredArgumentException;
+use JMS\Serializer\Annotation as Serializer;
 
 class TopN extends AbstractAggregationQuery
 {
