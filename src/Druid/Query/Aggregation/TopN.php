@@ -139,5 +139,8 @@ class TopN extends AbstractAggregationQuery
         if (!$this->getMetric()) {
             throw new RequiredArgumentException('\'metric\' is a required parameter');
         }
+        if (!count($this->getAggregations()) && !count($this->getPostAggregations())) {
+            throw new RequiredArgumentException('must have at least one AggregatorFactory');
+        }
     }
 }
