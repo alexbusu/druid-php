@@ -32,6 +32,7 @@ namespace Druid;
 use Druid\Driver\ConnectionConfig;
 use Druid\Driver\DriverConnectionInterface;
 use Druid\Driver\DriverInterface;
+use Druid\Driver\Guzzle\AbstractAsyncPromise;
 use Druid\Query\AbstractQuery;
 use Druid\Query\QueryInterface;
 use Druid\QueryBuilder\AbstractQueryBuilder;
@@ -40,6 +41,7 @@ use Druid\QueryBuilder\SelectQueryBuilder;
 use Druid\QueryBuilder\SearchQueryBuilder;
 use Druid\QueryBuilder\TimeseriesQueryBuilder;
 use Druid\QueryBuilder\TopNQueryBuilder;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * Class Connection.
@@ -95,6 +97,19 @@ class Druid implements DriverConnectionInterface
         $this->connect();
 
         return $this->connection->send($query);
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param AbstractAsyncPromise $promiseCallback
+     *
+     * @return PromiseInterface
+     */
+    public function sendAsync(QueryInterface $query, AbstractAsyncPromise $promiseCallback)
+    {
+        $this->connect();
+
+        return $this->connection->sendAsync($query, $promiseCallback);
     }
 
     /**

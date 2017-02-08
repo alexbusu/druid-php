@@ -29,7 +29,9 @@
 
 namespace Druid\Driver;
 
+use Druid\Driver\Guzzle\AbstractAsyncPromise;
 use Druid\Query\QueryInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * Interface Connection.
@@ -42,4 +44,12 @@ interface DriverConnectionInterface
      * @return ResponseInterface
      */
     public function send(QueryInterface $query);
+
+    /**
+     * @param QueryInterface $query
+     * @param AbstractAsyncPromise $promiseCallback
+     *
+     * @return PromiseInterface
+     */
+    public function sendAsync(QueryInterface $query, AbstractAsyncPromise $promiseCallback);
 }

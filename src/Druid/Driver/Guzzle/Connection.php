@@ -33,6 +33,7 @@ use Druid\Driver\DriverConnectionInterface;
 use Druid\Driver\ResponseInterface;
 use Druid\Query\QueryInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\PromiseInterface;
 use JMS\Serializer\SerializerInterface;
 
 /**
@@ -72,5 +73,19 @@ class Connection implements DriverConnectionInterface
         $response = $this->guzzle->post('', ['body' => $body]);
 
         return new Response($response);
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param AbstractAsyncPromise $promiseCallback
+     * @return PromiseInterface
+     */
+    public function sendAsync(QueryInterface $query, AbstractAsyncPromise $promiseCallback)
+    {
+        $body = $this->serializer->serialize($query, 'json');
+        $promise = $this->guzzle->postAsync('', ['body' => $body]);
+        $promise->then([$promiseCallback, 'onSuccess'], [$promiseCallback, 'onFailure']);
+
+        return $promise;
     }
 }

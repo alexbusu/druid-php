@@ -2,7 +2,9 @@
 
 namespace Druid\Driver;
 
+use Druid\Driver\Guzzle\AbstractAsyncPromise;
 use Druid\Query\QueryInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class ValidateConnectionDecorator implements DriverConnectionInterface
 {
@@ -28,5 +30,17 @@ class ValidateConnectionDecorator implements DriverConnectionInterface
     {
         $query->validate();
         return $this->decoratedConnection->send($query);
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param AbstractAsyncPromise $promiseCallback
+     *
+     * @return PromiseInterface
+     */
+    public function sendAsync(QueryInterface $query, AbstractAsyncPromise $promiseCallback)
+    {
+        $query->validate();
+        return $this->decoratedConnection->sendAsync($query, $promiseCallback);
     }
 }

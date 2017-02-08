@@ -25,7 +25,7 @@
     "squizlabs/php_codesniffer": "^2.6",
     "phpmd/phpmd": "^2.4",
     "sllh/php-cs-fixer-styleci-bridge": "^2.0",
-    "fabpot/php-cs-fixer": "^1.11"
+    "friendsofphp/php-cs-fixer": "^1.11"
   },
   "autoload": {
     "psr-4": {
