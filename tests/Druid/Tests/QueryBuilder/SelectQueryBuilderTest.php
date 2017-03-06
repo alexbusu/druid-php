@@ -29,14 +29,11 @@
 
 namespace Druid\Tests\QueryBuilder;
 
-use Druid\Driver\ResponseInterface;
 use Druid\Query\Component\ComponentInterface;
 use Druid\Query\Component\DimensionSpec\DefaultDimensionSpec;
-use Druid\Query\Component\Granularity\PeriodGranularity;
 use Druid\Query\Component\PagingSpec\PagingIdentifier;
 use Druid\Query\Component\PagingSpec\PagingSpec;
 use Druid\QueryBuilder\SelectQueryBuilder;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 
 class SelectQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +43,7 @@ class SelectQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testFailAddComponent()
     {
         $builder = new SelectQueryBuilder();
-        $component = $this->getMock(ComponentInterface::class);
+        $component = $this->createMock(ComponentInterface::class);
         $builder->addComponent('not_exists_component', $component);
     }
 

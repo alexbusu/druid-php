@@ -35,6 +35,7 @@ namespace Druid\Query\Component;
 interface DimensionSpecInterface extends TypedInterface, ComponentInterface
 {
     const TYPE_DEFAULT = 'default';
+    const TYPE_EXTRACTION = 'extraction';
 
     /**
      * @return string
