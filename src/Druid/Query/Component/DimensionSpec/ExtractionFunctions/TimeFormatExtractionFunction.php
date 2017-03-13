@@ -13,13 +13,14 @@ class TimeFormatExtractionFunction extends AbstractTypedComponent implements Ext
     /**
      * Date time format for the resulting dimension value, in Joda Time DateTimeFormat,
      * or null to use the default ISO8601 format
-     *
+     * @link http://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html
      * @var string
      */
     private $format;
 
     /**
      * Locale (language and country) to use, given as a IETF BCP 47 language tag, e.g. en-US, en-GB, fr-FR
+     * @link http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html#util-text
      * @var string
      */
     private $locale;
