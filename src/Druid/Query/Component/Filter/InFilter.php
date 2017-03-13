@@ -51,13 +51,13 @@ class InFilter extends AbstractTypedComponent implements FilterInterface
      * InFilter constructor.
      *
      * @param string $dimension
-     * @param string $values
+     * @param array $values
      */
-    public function __construct($dimension, $values)
+    public function __construct($dimension, array $values)
     {
         parent::__construct(FilterInterface::TYPE_LOGICAL_IN);
         $this->dimension = $dimension;
-        $this->values = $values;
+        $this->values = array_values($values);
     }
 
     /**
