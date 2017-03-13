@@ -8,7 +8,7 @@ interface ExtractionFunctionInterface
 //    const TYPE_PARTIAL = 'partial';
 //    const TYPE_SEARCH_QUERY = 'searchQuery';
     const TYPE_SUBSTRING = 'substring';
-//    const TYPE_TIME_FORMAT = 'timeFormat';
+    const TYPE_TIME_FORMAT = 'timeFormat';
 //    const TYPE_TIME_PARSING = 'time';
 //    const TYPE_JAVASCRIPT = 'javascript';
 //    const TYPE_LOOOKUP = 'lookup';
