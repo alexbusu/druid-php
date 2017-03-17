@@ -62,7 +62,7 @@ class TopNQueryBuilder extends AbstractAggregationQueryBuilder
     public function setDimension($dimension, $outputName = '')
     {
         if ($dimension instanceof DimensionSpecInterface) {
-            return $this->addComponent('dimensions', $dimension);
+            return $this->addComponent('dimension', $dimension);
         }
         return $this->addComponent('dimension', new DefaultDimensionSpec($dimension, $outputName ?: $dimension));
     }
