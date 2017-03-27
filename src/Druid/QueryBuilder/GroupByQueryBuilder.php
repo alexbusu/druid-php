@@ -33,6 +33,8 @@ use Druid\Query\Aggregation\GroupBy;
 use Druid\Query\Component\DimensionSpec\DefaultDimensionSpec;
 use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\HavingInterface;
+use Druid\Query\Component\LimitSpec\DefaultLimitSpec;
+use Druid\Query\Component\LimitSpec\OrderByColumnSpec;
 
 /**
  * Class GroupByQueryBuilder.
@@ -73,6 +75,19 @@ class GroupByQueryBuilder extends AbstractAggregationQueryBuilder
     public function setHaving(HavingInterface $having)
     {
         return $this->addComponent('having', $having);
+    }
+
+    /**
+     * @param int|DefaultLimitSpec   $limit
+     * @param string[]|OrderByColumnSpec[] $columns
+     * @return $this
+     */
+    public function setLimit($limit, array $columns = [])
+    {
+        if (!($limit instanceof DefaultLimitSpec)) {
+            $limit = new DefaultLimitSpec((int)$limit, $columns);
+        }
+        return $this->addComponent('limitSpec', $limit);
     }
 
     /**
