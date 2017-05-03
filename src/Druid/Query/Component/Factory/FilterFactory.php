@@ -29,6 +29,7 @@
 
 namespace Druid\Query\Component\Factory;
 
+use Druid\Query\Component\Filter\InFilter;
 use Druid\Query\Component\Filter\LogicalFilter;
 use Druid\Query\Component\Filter\NotFilter;
 use Druid\Query\Component\Filter\SelectorFilter;
@@ -89,5 +90,16 @@ class FilterFactory
     public function notFilter(FilterInterface $field)
     {
         return new NotFilter($field);
+    }
+
+    /**
+     * @param string $dimension
+     * @param array $values
+     *
+     * @return InFilter
+     */
+    public function inFilter($dimension, array $values)
+    {
+        return new InFilter($dimension, $values);
     }
 }

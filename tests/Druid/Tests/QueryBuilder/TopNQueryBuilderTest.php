@@ -45,7 +45,7 @@ class TopNQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testFailAddComponent()
     {
         $builder = new TopNQueryBuilder();
-        $component = $this->getMock(ComponentInterface::class);
+        $component = $this->createMock(ComponentInterface::class);
         $builder->addComponent('not_exists_component', $component);
     }
 
@@ -74,8 +74,8 @@ class TopNQueryBuilderTest extends \PHPUnit_Framework_TestCase
                 $builder->postAggregator()->fieldAccessPostAggregator('sum', 'sum'),
                 $builder->postAggregator()->fieldAccessPostAggregator('count', 'count'),
             ]))
-            ->setMetric( new DimensionTopNMetric( DimensionTopNMetric::ORDERING_NUMERIC, 500 ) )
-            ->setThreshold( 50 )
+            ->setMetric(new DimensionTopNMetric(DimensionTopNMetric::ORDERING_NUMERIC, 500))
+            ->setThreshold(50)
         ;
 
         /** @var TopN $query */
@@ -91,6 +91,6 @@ class TopNQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('average', $query->getPostAggregations()[0]->getName());
         $this->assertEquals(MetricInterface::TYPE_DIMENSION, $query->getMetric()->getType());
         $this->assertEquals(DimensionTopNMetric::ORDERING_NUMERIC, $query->getMetric()->getOrdering());
-        $this->assertEquals(50, $query->getThreshold());
+        $this->assertEquals(50, $query->getSerializedThreshold());
     }
 }
