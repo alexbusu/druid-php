@@ -27,19 +27,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Druid\Query\Component;
+namespace Druid\Query\Component\Aggregator;
+
+use Druid\Query\Component\AggregatorInterface;
 
 /**
- * Interface AggregatorInterface.
+ * Class CurrencySumAggregator.
  */
-interface AggregatorInterface extends TypedInterface, ComponentInterface
+class CurrencySumAggregator extends AbstractCurrencyAggregator implements AggregatorInterface
 {
-    const TYPE_COUNT = 'count';
-    const TYPE_LONG_SUM = 'longSum';
-    const TYPE_DOUBLE_SUM = 'doubleSum';
-    const TYPE_FILTERED = 'filtered';
-    const TYPE_HYPER_UNIQUE = 'hyperUnique';
-    const TYPE_DOUBLE_MIN = 'doubleMin';
-    const TYPE_DOUBLE_MAX = 'doubleMax';
-    const TYPE_CURRENCY_SUM = 'currencySum';
+    /**
+     * DoubleSumAggregator constructor.
+     *
+     * @param string $name
+     * @param string $fieldName
+     */
+    public function __construct($name, $fieldName, $conversions)
+    {
+        parent::__construct(self::TYPE_CURRENCY_SUM, $name, $fieldName, $conversions);
+    }
 }
