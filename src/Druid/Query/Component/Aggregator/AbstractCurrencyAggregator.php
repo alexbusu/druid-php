@@ -27,19 +27,65 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Druid\Query\Component;
+namespace Druid\Query\Component\Aggregator;
 
-/**
- * Interface AggregatorInterface.
- */
-interface AggregatorInterface extends TypedInterface, ComponentInterface
+use Druid\Query\Component\AbstractTypedComponent;
+
+abstract class AbstractCurrencyAggregator extends AbstractTypedComponent
 {
-    const TYPE_COUNT = 'count';
-    const TYPE_LONG_SUM = 'longSum';
-    const TYPE_DOUBLE_SUM = 'doubleSum';
-    const TYPE_FILTERED = 'filtered';
-    const TYPE_HYPER_UNIQUE = 'hyperUnique';
-    const TYPE_DOUBLE_MIN = 'doubleMin';
-    const TYPE_DOUBLE_MAX = 'doubleMax';
-    const TYPE_CURRENCY_SUM = 'currencySum';
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $fieldName;
+
+    /**
+    * @var Object
+    */
+    private $conversions;
+    
+    
+    /**
+     * AbstractArithmeticalAggregator constructor.
+     *
+     * @param string $type
+     * @param string $name
+     * @param string $fieldName
+     */
+    public function __construct($type, $name, $fieldName, $conversions)
+    {
+        parent::__construct($type);
+        $this->name = $name;
+        $this->fieldName = $fieldName;
+        $this->conversions = $conversions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName()
+    {
+        return $this->fieldName;
+    }
+    
+    /**
+     * @return Object
+     */
+    public function getConversions()
+    {
+        return $this->conversions;
+    }
+    
 }

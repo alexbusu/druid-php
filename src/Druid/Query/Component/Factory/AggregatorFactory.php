@@ -118,4 +118,16 @@ class AggregatorFactory
                 );
         }
     }
+    
+    /**
+     * @param string $name
+     * @param string $fieldName
+     *
+     * @return Aggregator\CurrencySumAggregator
+     */
+    public function currencySum($name, $fieldName, $conversions)
+    {
+        return new Aggregator\CurrencySumAggregator($name, $fieldName, $conversions);
+    }
+    
 }
