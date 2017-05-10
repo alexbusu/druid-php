@@ -115,7 +115,7 @@ class AggregatorFactory
             case AggregatorInterface::TYPE_CURRENCY_SUM:
                 return $this->currencySum($name, $fieldName, $data);
             case AggregatorInterface::TYPE_JAVASCRIPT_SUM:
-                return $this->costSum($name, $fieldName, $data);
+                return $this->javscriptSum($name, $fieldName, $data);
             default:
                 throw new \RuntimeException(
                     sprintf('Invalid aggregator type %s', $type)
@@ -140,9 +140,9 @@ class AggregatorFactory
      *
      * @return Aggregator\CostSumAggregator
      */
-    public function costSum($name, $fieldName, $cpc)
+    public function javascriptSum($name, $fieldName, $cpc)
     {
-        return new Aggregator\CostSumAggregator($name, $fieldName, $cpc);
+        return new Aggregator\JavascriptSumAggregator($name, $fieldName, $cpc);
     }
     
 }
