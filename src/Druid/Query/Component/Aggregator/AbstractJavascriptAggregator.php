@@ -29,32 +29,87 @@
 
 namespace Druid\Query\Component\Aggregator;
 
-abstract class AbstractCurrencyAggregator extends AbstractArithmeticalAggregator
+use JMS\Serializer\Annotation as Serializer;
+use Druid\Query\Component\AbstractTypedComponent;
+
+abstract class AbstractJavascriptAggregator extends AbstractTypedComponent
 {
     /**
      * @var array
+     * @Serializer\SerializedName(value="fieldNames")
      */
-    private $conversions;
+    private $fieldName;
+
+    private $name;
+    
+    /**
+     * @var string
+     */
+    private $fnAggregate = 'function(current) {return current}';
+    private $fnCombine = "function(a, b) { return a + b; }";
+    private $fnReset = "function() { return 0; }";
 
     /**
-     * AbstractArithmeticalAggregator constructor.
+     * AbstractJavascriptAggregator constructor.
      *
      * @param string $type
      * @param string $name
-     * @param string $fieldName
-     * @param array  $conversions
+     * @param array  $fieldNames
+     * @param array  $cpc
      */
-    public function __construct($type, $name, $fieldName, $conversions)
+    public function __construct($type, $name, array $fieldNames, array $functions)
     {
-        parent::__construct($type, $name, $fieldName);
-        $this->conversions = $conversions;
+        parent::__construct($type);
+        $this->fieldName = $fieldNames;
+        $this->name = $name;
+        $this->fnAggregate = $functions['fnAggregate'];
+        $this->fnCombine = $functions['fnCombine'];
+        $this->fnReset = $functions['fnReset'];
+    }
+
+
+    public function __sleep()
+    {
+        return ['fieldName', 'fnAddnotation', 'fnCombine', 'fnReset'];
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getConversions()
+    public function getName()
     {
-        return $this->conversions;
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName()
+    {
+        return $this->fieldName;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFnAggregate()
+    {
+        return $this->fnAggregate;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFnCombine()
+    {
+        return $this->fnCombine;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFnReset()
+    {
+        return $this->fnReset;
     }
 }

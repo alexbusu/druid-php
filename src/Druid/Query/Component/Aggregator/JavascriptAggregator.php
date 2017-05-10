@@ -27,20 +27,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Druid\Query\Component;
+namespace Druid\Query\Component\Aggregator;
+
+use Druid\Query\Component\AggregatorInterface;
 
 /**
- * Interface AggregatorInterface.
+ * Class JavascriptSumAggregator.
  */
-interface AggregatorInterface extends TypedInterface, ComponentInterface
+class JavascriptAggregator extends AbstractJavascriptAggregator implements AggregatorInterface
 {
-    const TYPE_COUNT = 'count';
-    const TYPE_LONG_SUM = 'longSum';
-    const TYPE_DOUBLE_SUM = 'doubleSum';
-    const TYPE_FILTERED = 'filtered';
-    const TYPE_HYPER_UNIQUE = 'hyperUnique';
-    const TYPE_DOUBLE_MIN = 'doubleMin';
-    const TYPE_DOUBLE_MAX = 'doubleMax';
-    const TYPE_CURRENCY_SUM = 'currencySum';
-    const TYPE_JAVASCRIPT_SUM = 'javascript';
+    /**
+     * JavascriptSumAggregator constructor.
+     *
+     * @param string $name
+     * @param array  $fieldName
+     * @param array  $data
+     */
+    public function __construct($name, array $fieldName, array $functions)
+    {
+        parent::__construct(self::TYPE_JAVASCRIPT_SUM, $name, $fieldName, $functions);
+    }
 }
