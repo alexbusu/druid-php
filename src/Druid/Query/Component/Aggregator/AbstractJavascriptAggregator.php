@@ -29,32 +29,85 @@
 
 namespace Druid\Query\Component\Aggregator;
 
-abstract class AbstractCurrencyAggregator extends AbstractArithmeticalAggregator
+use JMS\Serializer\Annotation as Serializer;
+
+abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregator
 {
     /**
      * @var array
+     * @Serializer\SerializedName(value="fieldNames")
      */
-    private $conversions;
+    private $fieldName;
 
     /**
-     * AbstractArithmeticalAggregator constructor.
+     * @var string
+     */
+    private $fnAggregate = '';
+
+    private $fnCombine = "function(a, b) { return a + b; }";
+
+    private $fnReset = "function() { return 0; }";
+
+    /**
+     * AbstractJavascriptAggregator constructor.
      *
      * @param string $type
      * @param string $name
-     * @param string $fieldName
-     * @param array  $conversions
+     * @param array  $fieldNames
+     * @param array  $cpc
      */
-    public function __construct($type, $name, $fieldName, $conversions)
+    public function __construct($type, $name, array $fieldNames, array $cpc)
     {
-        parent::__construct($type, $name, $fieldName);
-        $this->conversions = $conversions;
+        parent::__construct($type, $name, $fieldNames);
+        $this->fieldName = $fieldNames;
+        $cpcs = "[";
+        foreach ($cpc as $key => $value) {
+            $cpcs .= "'" . $key . "': " . $value . ",";
+        }
+        $cpcs = rtrim($cpcs, ",");
+        $cpcs .= "]";
+        $this->fnAggregate = "function(current, c, i, t) {var iac = $cpcs; var dateObj = new Date(t); " .
+            "var month = dateObj.getUTCMonth() + 1; var day = dateObj.getUTCDate(); " .
+            "var year = dateObj.getUTCFullYear(); " .
+            "return current + iac[i + '-' + year + '-' + month + '-' + day] || c);}";
+    }
+
+
+    public function __sleep()
+    {
+        return ['fieldName', 'fnAddnotation', 'fnCombine', 'fnReset'];
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getConversions()
+    public function getFieldName()
     {
-        return $this->conversions;
+        return parent::getFieldName();
+    }
+
+
+    /**
+     * @return String
+     */
+    public function getFnAggregate()
+    {
+        return $this->fnAggregate;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFnCombine()
+    {
+        return $this->fnCombine;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFnReset()
+    {
+        return $this->fnReset;
     }
 }

@@ -41,6 +41,7 @@ class CurrencySumAggregator extends AbstractCurrencyAggregator implements Aggreg
      *
      * @param string $name
      * @param string $fieldName
+     * @param array $conversions
      */
     public function __construct($name, $fieldName, $conversions)
     {

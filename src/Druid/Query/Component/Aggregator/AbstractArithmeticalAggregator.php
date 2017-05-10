@@ -39,16 +39,16 @@ abstract class AbstractArithmeticalAggregator extends AbstractTypedComponent
     private $name;
 
     /**
-     * @var string
+     * @var string|array
      */
     private $fieldName;
 
     /**
      * AbstractArithmeticalAggregator constructor.
      *
-     * @param string $type
-     * @param string $name
-     * @param string $fieldName
+     * @param string       $type
+     * @param string       $name
+     * @param string|array $fieldName
      */
     public function __construct($type, $name, $fieldName)
     {
@@ -66,7 +66,7 @@ abstract class AbstractArithmeticalAggregator extends AbstractTypedComponent
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getFieldName()
     {
