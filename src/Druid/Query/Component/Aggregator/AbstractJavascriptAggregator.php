@@ -29,7 +29,6 @@
 
 namespace Druid\Query\Component\Aggregator;
 
-use Druid\Query\Component\AbstractTypedComponent;
 use JMS\Serializer\Annotation as Serializer;
 
 abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregator
@@ -39,42 +38,46 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
      * @Serializer\SerializedName(value="fieldNames")
      */
     private $fieldName;
-    
+
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $fnAggregate = '';
-    
+
     private $fnCombine = "function(a, b) { return a + b; }";
-    
-    private $fnReset =  "function() { return 0; }";    
-    
+
+    private $fnReset = "function() { return 0; }";
+
     /**
      * AbstractJavascriptAggregator constructor.
      *
      * @param string $type
      * @param string $name
-     * @param string $fieldName
-     * @param string $cpc
+     * @param array  $fieldNames
+     * @param array  $cpc
      */
-    public function __construct($type, $name, $fieldNames, $cpc)
+    public function __construct($type, $name, array $fieldNames, array $cpc)
     {
         parent::__construct($type, $name, $fieldNames);
         $this->fieldName = $fieldNames;
         $cpcs = "[";
         foreach ($cpc as $key => $value) {
-            $cpcs .="'".$key."': ".$value.",";
+            $cpcs .= "'" . $key . "': " . $value . ",";
         }
         $cpcs = rtrim($cpcs, ",");
-        $cpcs.= "]";
-        $this->fnAggregate = "function(current, c, i, t) {var iac = $cpcs; var dateObj = new Date(t); var month = dateObj.getUTCMonth() + 1; var day = dateObj.getUTCDate(); var year = dateObj.getUTCFullYear(); return current + iac[i + '-' + year + '-' + month + '-' + day] || c);}";
+        $cpcs .= "]";
+        $this->fnAggregate = "function(current, c, i, t) {var iac = $cpcs; var dateObj = new Date(t); " .
+            "var month = dateObj.getUTCMonth() + 1; var day = dateObj.getUTCDate(); " .
+            "var year = dateObj.getUTCFullYear(); " .
+            "return current + iac[i + '-' + year + '-' + month + '-' + day] || c);}";
     }
-    
-    
-    public function __sleep(){
+
+
+    public function __sleep()
+    {
         return ['fieldName', 'fnAddnotation', 'fnCombine', 'fnReset'];
     }
-    
+
     /**
      * @return string
      */
@@ -83,26 +86,27 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
         return parent::getFieldName();
     }
 
-    
     /**
      * @return String
      */
-    public function getFnAggregate(){
+    public function getFnAggregate()
+    {
         return $this->fnAggregate;
     }
 
     /**
      * @return String
      */
-    public function getFnCombine(){
+    public function getFnCombine()
+    {
         return $this->fnCombine;
     }
 
     /**
      * @return String
      */
-    public function getFnReset(){
+    public function getFnReset()
+    {
         return $this->fnReset;
     }
-    
 }

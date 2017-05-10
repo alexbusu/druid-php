@@ -95,13 +95,13 @@ class AggregatorFactory
     }
 
     /**
-     * @param string $type
-     * @param string $name
-     * @param string $fieldName
-     *
+     * @param string       $type
+     * @param string       $name
+     * @param string|array $fieldName
+     * @param array        $data
      * @return AggregatorInterface
      */
-    public function arithmeticAggregator($type, $name, $fieldName, $data = [])
+    public function arithmeticAggregator($type, $name, $fieldName, array $data = [])
     {
         switch ($type) {
             case AggregatorInterface::TYPE_COUNT:
@@ -115,34 +115,33 @@ class AggregatorFactory
             case AggregatorInterface::TYPE_CURRENCY_SUM:
                 return $this->currencySum($name, $fieldName, $data);
             case AggregatorInterface::TYPE_JAVASCRIPT_SUM:
-                return $this->javscriptSum($name, $fieldName, $data);
+                return $this->javascriptSum($name, $fieldName, $data);
             default:
                 throw new \RuntimeException(
                     sprintf('Invalid aggregator type %s', $type)
                 );
         }
     }
-    
+
     /**
      * @param string $name
      * @param string $fieldName
-     *
+     * @param array  $conversions
      * @return Aggregator\CurrencySumAggregator
      */
-    public function currencySum($name, $fieldName, $conversions)
+    public function currencySum($name, $fieldName, array $conversions)
     {
         return new Aggregator\CurrencySumAggregator($name, $fieldName, $conversions);
     }
 
     /**
      * @param string $name
-     * @param string $fieldName
-     *
+     * @param array  $fieldNames
+     * @param array  $data
      * @return Aggregator\JavascriptSumAggregator
      */
-    public function javascriptSum($name, $fieldName, $data)
+    public function javascriptSum($name, array $fieldNames, array $data)
     {
-        return new Aggregator\JavascriptSumAggregator($name, $fieldName, $data);
+        return new Aggregator\JavascriptSumAggregator($name, $fieldNames, $data);
     }
-    
 }

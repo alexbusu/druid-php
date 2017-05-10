@@ -29,34 +29,32 @@
 
 namespace Druid\Query\Component\Aggregator;
 
-use Druid\Query\Component\AbstractTypedComponent;
-
 abstract class AbstractCurrencyAggregator extends AbstractArithmeticalAggregator
 {
     /**
-    * @var Object
-    */
+     * @var array
+     */
     private $conversions;
-    
+
     /**
      * AbstractArithmeticalAggregator constructor.
      *
      * @param string $type
      * @param string $name
      * @param string $fieldName
+     * @param array  $conversions
      */
     public function __construct($type, $name, $fieldName, $conversions)
     {
         parent::__construct($type, $name, $fieldName);
         $this->conversions = $conversions;
     }
-    
+
     /**
-     * @return Object
+     * @return array
      */
     public function getConversions()
     {
         return $this->conversions;
     }
-    
 }

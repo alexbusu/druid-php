@@ -40,10 +40,10 @@ class JavascriptSumAggregator extends AbstractJavascriptAggregator implements Ag
      * JavascriptSumAggregator constructor.
      *
      * @param string $name
-     * @param string $fieldName
-     * @param array $data
+     * @param array  $fieldName
+     * @param array  $data
      */
-    public function __construct($name, $fieldName, $data)
+    public function __construct($name, array $fieldName, array $data)
     {
         parent::__construct(self::TYPE_JAVASCRIPT_SUM, $name, $fieldName, $data);
     }
