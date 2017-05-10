@@ -138,11 +138,11 @@ class AggregatorFactory
      * @param string $name
      * @param string $fieldName
      *
-     * @return Aggregator\CostSumAggregator
+     * @return Aggregator\JavascriptSumAggregator
      */
-    public function javascriptSum($name, $fieldName, $cpc)
+    public function javascriptSum($name, $fieldName, $data)
     {
-        return new Aggregator\JavascriptSumAggregator($name, $fieldName, $cpc);
+        return new Aggregator\JavascriptSumAggregator($name, $fieldName, $data);
     }
     
 }
