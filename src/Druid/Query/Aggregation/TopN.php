@@ -33,6 +33,7 @@ use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\MetricInterface;
 use Druid\Query\Component\ThresholdInterface;
 use Druid\Query\Exception\RequiredArgumentException;
+use JMS\Serializer\Annotation as Serializer;
 
 class TopN extends AbstractAggregationQuery
 {
@@ -46,6 +47,7 @@ class TopN extends AbstractAggregationQuery
     /**
      * An integer defining the N in the topN (i.e. how many results you want in the top list)
      * @var ThresholdInterface
+     * @Serializer\Accessor(getter="getSerializedThreshold")
      */
     private $threshold;
 
@@ -100,11 +102,19 @@ class TopN extends AbstractAggregationQuery
     }
 
     /**
-     * @return int
+     * @return ThresholdInterface
      */
     public function getThreshold()
     {
-        return (int)(string)$this->threshold;
+        return $this->threshold;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSerializedThreshold()
+    {
+        return $this->threshold ? (int)$this->threshold->__toString() : 0;
     }
 
     /**
@@ -138,6 +148,9 @@ class TopN extends AbstractAggregationQuery
         }
         if (!$this->getMetric()) {
             throw new RequiredArgumentException('\'metric\' is a required parameter');
+        }
+        if (!count($this->getAggregations()) && !count($this->getPostAggregations())) {
+            throw new RequiredArgumentException('must have at least one AggregatorFactory');
         }
     }
 }

@@ -30,12 +30,13 @@
 namespace Druid\Query\Component\LimitSpec;
 
 use Druid\Query\Component\AbstractTypedComponent;
+use Druid\Query\Component\ComponentInterface;
 use Druid\Query\Component\LimitSpecInterface;
 
 /**
  * Class DefaultLimitSpec.
  */
-class DefaultLimitSpec extends AbstractTypedComponent implements LimitSpecInterface
+class DefaultLimitSpec extends AbstractTypedComponent implements LimitSpecInterface, ComponentInterface
 {
     /**
      * @var int
@@ -43,7 +44,7 @@ class DefaultLimitSpec extends AbstractTypedComponent implements LimitSpecInterf
     private $limit;
 
     /**
-     * @var string
+     * @var string[]|OrderByColumnSpec[]
      */
     private $columns;
 
@@ -51,9 +52,9 @@ class DefaultLimitSpec extends AbstractTypedComponent implements LimitSpecInterf
      * DefaultLimitSpec constructor.
      *
      * @param int    $limit   Number of limit.
-     * @param string $columns Columns for ordering.
+     * @param string[]|OrderByColumnSpec[] $columns Columns for ordering.
      */
-    public function __construct($limit, $columns)
+    public function __construct($limit, array $columns)
     {
         parent::__construct(self::TYPE_DEFAULT);
         $this->limit = $limit;
@@ -69,7 +70,7 @@ class DefaultLimitSpec extends AbstractTypedComponent implements LimitSpecInterf
     }
 
     /**
-     * @return string
+     * @return string[]|OrderByColumnSpec[]
      */
     public function getColumns()
     {

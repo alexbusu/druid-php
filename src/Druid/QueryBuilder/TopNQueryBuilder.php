@@ -31,6 +31,7 @@ namespace Druid\QueryBuilder;
 
 use Druid\Query\Aggregation\TopN;
 use Druid\Query\Component\DimensionSpec\DefaultDimensionSpec;
+use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\MetricInterface;
 use Druid\Query\Component\Threshold\Threshold;
 use Druid\Query\Component\ThresholdInterface;
@@ -53,14 +54,17 @@ class TopNQueryBuilder extends AbstractAggregationQueryBuilder
     ];
 
     /**
-     * @param string $dimension
+     * @param string|DimensionSpecInterface $dimension
      * @param string $outputName
      *
      * @return $this
      */
-    public function setDimension($dimension, $outputName)
+    public function setDimension($dimension, $outputName = '')
     {
-        return $this->addComponent('dimension', new DefaultDimensionSpec($dimension, $outputName));
+        if ($dimension instanceof DimensionSpecInterface) {
+            return $this->addComponent('dimension', $dimension);
+        }
+        return $this->addComponent('dimension', new DefaultDimensionSpec($dimension, $outputName ?: $dimension));
     }
 
     /**
@@ -80,7 +84,10 @@ class TopNQueryBuilder extends AbstractAggregationQueryBuilder
      */
     public function setThreshold($threshold)
     {
-        return $this->addComponent('threshold', $threshold instanceof ThresholdInterface ? $threshold : new Threshold((int)$threshold));
+        return $this->addComponent(
+            'threshold',
+            $threshold instanceof ThresholdInterface ? $threshold : new Threshold((int)$threshold)
+        );
     }
 
     /**
