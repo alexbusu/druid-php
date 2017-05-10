@@ -31,7 +31,10 @@ namespace Druid\QueryBuilder;
 
 use Druid\Query\Aggregation\GroupBy;
 use Druid\Query\Component\DimensionSpec\DefaultDimensionSpec;
+use Druid\Query\Component\DimensionSpecInterface;
 use Druid\Query\Component\HavingInterface;
+use Druid\Query\Component\LimitSpec\DefaultLimitSpec;
+use Druid\Query\Component\LimitSpec\OrderByColumnSpec;
 
 /**
  * Class GroupByQueryBuilder.
@@ -51,14 +54,17 @@ class GroupByQueryBuilder extends AbstractAggregationQueryBuilder
     ];
 
     /**
-     * @param string $dimension
+     * @param string|DimensionSpecInterface $dimension
      * @param string $outputName
      *
      * @return $this
      */
-    public function addDimension($dimension, $outputName)
+    public function addDimension($dimension, $outputName = '')
     {
-        return $this->addComponent('dimensions', new DefaultDimensionSpec($dimension, $outputName));
+        if ($dimension instanceof DimensionSpecInterface) {
+            return $this->addComponent('dimensions', $dimension);
+        }
+        return $this->addComponent('dimensions', new DefaultDimensionSpec($dimension, $outputName ?: $dimension));
     }
 
     /**
@@ -72,6 +78,19 @@ class GroupByQueryBuilder extends AbstractAggregationQueryBuilder
     }
 
     /**
+     * @param int|DefaultLimitSpec   $limit
+     * @param string[]|OrderByColumnSpec[] $columns
+     * @return $this
+     */
+    public function setLimit($limit, array $columns = [])
+    {
+        if (!($limit instanceof DefaultLimitSpec)) {
+            $limit = new DefaultLimitSpec((int)$limit, $columns);
+        }
+        return $this->addComponent('limitSpec', $limit);
+    }
+
+    /**
      * @return GroupBy
      */
     public function getQuery()
@@ -79,7 +98,7 @@ class GroupByQueryBuilder extends AbstractAggregationQueryBuilder
         $query = new GroupBy();
         foreach ($this->components as $componentName => $component) {
             if (!empty($component)) {
-                $method = 'set'.ucfirst($componentName);
+                $method = 'set' . ucfirst($componentName);
                 $query->$method($component);
             }
         }

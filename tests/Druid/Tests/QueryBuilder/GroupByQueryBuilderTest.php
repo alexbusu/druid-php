@@ -30,6 +30,9 @@
 namespace Druid\Tests\QueryBuilder;
 
 use Druid\Query\Component\ComponentInterface;
+use Druid\Query\Component\LimitSpec\OrderByColumnSpec;
+use Druid\Query\Component\LimitSpecInterface;
+use Druid\Query\Component\SortInterface;
 use Druid\QueryBuilder\GroupByQueryBuilder;
 use Druid\Query\Component\Granularity\PeriodGranularity;
 
@@ -42,7 +45,7 @@ class GroupByQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testFailAddComponent()
     {
         $builder = new GroupByQueryBuilder();
-        $component = $this->getMock(ComponentInterface::class);
+        $component = $this->createMock(ComponentInterface::class);
         $builder->addComponent('not_exists_component', $component);
     }
 
@@ -63,7 +66,7 @@ class GroupByQueryBuilderTest extends \PHPUnit_Framework_TestCase
                 $builder->postAggregator()->fieldAccessPostAggregator('count', 'count'),
             ]))
             ->setHaving($builder->having()->equalToHaving('gender', 300))
-        ;
+            ->setLimit(500, [new OrderByColumnSpec('average', OrderByColumnSpec::SORT_DESC, SortInterface::SORT_NUMERIC)]);
 
         $query = $builder->getQuery();
         $this->assertEquals('dataSource', $query->getDataSource()->getName());
@@ -75,5 +78,10 @@ class GroupByQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('gender', $query->getDimensions()[0]->getDimension());
         $this->assertEquals('average', $query->getPostAggregations()[0]->getName());
         $this->assertEquals(300, $query->getHaving()->getValue());
+        $this->assertInstanceOf(LimitSpecInterface::class, $query->getLimitSpec());
+        $this->assertEquals(500, $query->getLimitSpec()->getLimit());
+        $this->assertInstanceOf(OrderByColumnSpec::class, $query->getLimitSpec()->getColumns()[0]);
+        $this->assertEquals(OrderByColumnSpec::SORT_DESC, $query->getLimitSpec()->getColumns()[0]->getDirection());
+        $this->assertEquals(SortInterface::SORT_NUMERIC, $query->getLimitSpec()->getColumns()[0]->getDimensionOrder());
     }
 }

@@ -34,9 +34,11 @@ namespace Druid\Query;
  */
 abstract class AbstractQuery implements QueryInterface
 {
+    const TYPE_SELECT = 'select';
     const TYPE_GROUP_BY = 'groupBy';
     const TYPE_TIMESERIES = 'timeseries';
     const TYPE_TOP_N = 'topN';
+    const TYPE_SEARCH = 'search';
 
     /**
      * @var string
