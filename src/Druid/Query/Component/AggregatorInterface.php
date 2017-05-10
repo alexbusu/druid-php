@@ -42,5 +42,4 @@ interface AggregatorInterface extends TypedInterface, ComponentInterface
     const TYPE_DOUBLE_MIN = 'doubleMin';
     const TYPE_DOUBLE_MAX = 'doubleMax';
     const TYPE_CURRENCY_SUM = 'currencySum';
-    const TYPE_JAVASCRIPT_SUM = 'javascript';
 }
