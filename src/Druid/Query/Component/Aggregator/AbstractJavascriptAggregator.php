@@ -86,7 +86,6 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
         return parent::getFieldName();
     }
 
-
     /**
      * @return String
      */
