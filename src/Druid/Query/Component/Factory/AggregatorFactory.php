@@ -101,7 +101,7 @@ class AggregatorFactory
      *
      * @return AggregatorInterface
      */
-    public function arithmeticAggregator($type, $name, $fieldName)
+    public function arithmeticAggregator($type, $name, $fieldName, $data = [])
     {
         switch ($type) {
             case AggregatorInterface::TYPE_COUNT:
@@ -112,6 +112,10 @@ class AggregatorFactory
                 return $this->hyperUnique($name, $fieldName);
             case AggregatorInterface::TYPE_LONG_SUM:
                 return $this->longSum($name, $fieldName);
+            case AggregatorInterface::TYPE_CURRENCY_SUM:
+                return $this->currencySum($name, $fieldName, $data);
+            case AggregatorInterface::TYPE_JAVASCRIPT_SUM:
+                return $this->costSum($name, $fieldName, $data);
             default:
                 throw new \RuntimeException(
                     sprintf('Invalid aggregator type %s', $type)
@@ -128,6 +132,17 @@ class AggregatorFactory
     public function currencySum($name, $fieldName, $conversions)
     {
         return new Aggregator\CurrencySumAggregator($name, $fieldName, $conversions);
+    }
+
+    /**
+     * @param string $name
+     * @param string $fieldName
+     *
+     * @return Aggregator\CostSumAggregator
+     */
+    public function costSum($name, $fieldName, $cpc)
+    {
+        return new Aggregator\CostSumAggregator($name, $fieldName, $cpc);
     }
     
 }
