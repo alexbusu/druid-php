@@ -140,8 +140,6 @@ class AggregatorFactory
      * @param array  $data
      * @return Aggregator\JavascriptSumAggregator
      */
-    public function javascriptSum($name, array $fieldNames, array $data)
     {
-        return new Aggregator\JavascriptSumAggregator($name, $fieldNames, $data);
     }
 }

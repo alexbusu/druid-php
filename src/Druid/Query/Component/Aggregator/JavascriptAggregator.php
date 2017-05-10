@@ -34,7 +34,7 @@ use Druid\Query\Component\AggregatorInterface;
 /**
  * Class JavascriptSumAggregator.
  */
-class JavascriptSumAggregator extends AbstractJavascriptAggregator implements AggregatorInterface
+class JavascriptAggregator extends AbstractJavascriptAggregator implements AggregatorInterface
 {
     /**
      * JavascriptSumAggregator constructor.
@@ -43,8 +43,8 @@ class JavascriptSumAggregator extends AbstractJavascriptAggregator implements Ag
      * @param array  $fieldName
      * @param array  $data
      */
-    public function __construct($name, array $fieldName, array $data)
+    public function __construct($name, array $fieldName, array $functions)
     {
-        parent::__construct(self::TYPE_JAVASCRIPT_SUM, $name, $fieldName, $data);
+        parent::__construct(self::TYPE_JAVASCRIPT_SUM, $name, $fieldName, $functions);
     }
 }

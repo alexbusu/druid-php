@@ -30,8 +30,9 @@
 namespace Druid\Query\Component\Aggregator;
 
 use JMS\Serializer\Annotation as Serializer;
+use Druid\Query\Component\AbstractTypedComponent;
 
-abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregator
+abstract class AbstractJavascriptAggregator extends AbstractTypedComponent
 {
     /**
      * @var array
@@ -39,13 +40,13 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
      */
     private $fieldName;
 
+    private $name;
+    
     /**
      * @var string
      */
-    private $fnAggregate = '';
-
+    private $fnAggregate = 'function(current) {return current}';
     private $fnCombine = "function(a, b) { return a + b; }";
-
     private $fnReset = "function() { return 0; }";
 
     /**
@@ -56,20 +57,14 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
      * @param array  $fieldNames
      * @param array  $cpc
      */
-    public function __construct($type, $name, array $fieldNames, array $cpc)
+    public function __construct($type, $name, array $fieldNames, array $functions)
     {
-        parent::__construct($type, $name, $fieldNames);
+        parent::__construct($type);
         $this->fieldName = $fieldNames;
-        $cpcs = "[";
-        foreach ($cpc as $key => $value) {
-            $cpcs .= "'" . $key . "': " . $value . ",";
-        }
-        $cpcs = rtrim($cpcs, ",");
-        $cpcs .= "]";
-        $this->fnAggregate = "function(current, c, i, t) {var iac = $cpcs; var dateObj = new Date(t); " .
-            "var month = dateObj.getUTCMonth() + 1; var day = dateObj.getUTCDate(); " .
-            "var year = dateObj.getUTCFullYear(); " .
-            "return current + iac[i + '-' + year + '-' + month + '-' + day] || c);}";
+        $this->name = $name;
+        $this->fnAggregate = $functions['fnAggregate'];
+        $this->fnCombine = $functions['fnCombine'];
+        $this->fnReset = $functions['fnReset'];
     }
 
 
@@ -81,9 +76,17 @@ abstract class AbstractJavascriptAggregator extends AbstractArithmeticalAggregat
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
-        return parent::getFieldName();
+        return $this->fieldName;
     }
 
     /**
