@@ -39,4 +39,5 @@ interface FilterInterface extends TypedInterface, ComponentInterface
     const TYPE_LOGICAL_OR = 'or';
     const TYPE_LOGICAL_NOT = 'not';
     const TYPE_LOGICAL_IN = 'in';
+    const TYPE_BOUND = 'bound';
 }

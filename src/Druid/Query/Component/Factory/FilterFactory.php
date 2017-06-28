@@ -29,6 +29,7 @@
 
 namespace Druid\Query\Component\Factory;
 
+use Druid\Query\Component\Filter\BoundFilter;
 use Druid\Query\Component\Filter\InFilter;
 use Druid\Query\Component\Filter\LogicalFilter;
 use Druid\Query\Component\Filter\NotFilter;
@@ -102,4 +103,22 @@ class FilterFactory
     {
         return new InFilter($dimension, $values);
     }
+    
+    /**
+    * 
+    * @param mixed $dimension
+    * @param mixed $values
+    * @param mixed $lower
+    * @param mixed $upper
+    * @param mixed $lowerStrict
+    * @param mixed $upperStrict
+    * @param mixed $ordering
+    * @param ExtractionFunctionInterface $extractionFunction
+    * @return {\Druid\Query\Component\Filter\InFilter|InFilter}
+    */
+    public function boundFilter($dimension, $lower = null, $upper = null, $lowerStrict = false, $upperStrict = false, $ordering = BoundFilter::LEXICOGRAPHIC, ExtractionFunctionInterface $extractionFunction = null)
+    {
+        return new BoundFilter($dimension, $lower, $upper, $lowerStrict, $upperStrict, $ordering, $extractionFunction);
+    }
+    
 }
