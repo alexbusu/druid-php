@@ -116,7 +116,7 @@ class FilterFactory
     * @param ExtractionFunctionInterface $extractionFunction
     * @return {\Druid\Query\Component\Filter\InFilter|InFilter}
     */
-    public function boundFilter($dimension, $lower = null, $upper = null, $lowerStrict = false, $upperStrict = false, $ordering = self::LEXICOGRAPHIC, ExtractionFunctionInterface $extractionFunction = null)
+    public function boundFilter($dimension, $lower = null, $upper = null, $lowerStrict = false, $upperStrict = false, $ordering = BoundFilter::LEXICOGRAPHIC, ExtractionFunctionInterface $extractionFunction = null)
     {
         return new BoundFilter($dimension, $lower, $upper, $lowerStrict, $upperStrict, $ordering, $extractionFunction);
     }

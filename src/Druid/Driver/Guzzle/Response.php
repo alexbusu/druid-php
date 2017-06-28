@@ -54,6 +54,10 @@ class Response implements ResponseInterface
         $this->originalResponse = $originalResponse;
     }
 
+    public function getStream(){
+        return $this->originalResponse->getBody();
+    }
+    
     /**
      * {@inheritdoc}
      */
