@@ -144,4 +144,16 @@ class AggregatorFactory
     {
         return new Aggregator\JavascriptAggregator($name, $fieldNames, $functions);
     }
+    
+    /**
+     * @param string $name
+     * @param string $fieldName
+     *
+     * @return Aggregator\CostUpdateAggregator
+     */
+    public function override($name, $overriddenMetric, $multiplier, $selectors, $overrides, $granularity = "day")
+    {
+        return new Aggregator\OverrideAggregator($name, $overriddenMetric, $multiplier, $selectors, $overrides, $granularity);
+    }
+    
 }
