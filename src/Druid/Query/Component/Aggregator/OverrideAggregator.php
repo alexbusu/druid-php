@@ -27,21 +27,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Druid\Query\Component;
+namespace Druid\Query\Component\Aggregator;
+
+use Druid\Query\Component\AggregatorInterface;
 
 /**
- * Interface AggregatorInterface.
+ * Class CurrencySumAggregator.
  */
-interface AggregatorInterface extends TypedInterface, ComponentInterface
+class OverrideAggregator extends MetricOverriderAggregator implements AggregatorInterface
 {
-    const TYPE_COUNT = 'count';
-    const TYPE_LONG_SUM = 'longSum';
-    const TYPE_DOUBLE_SUM = 'doubleSum';
-    const TYPE_FILTERED = 'filtered';
-    const TYPE_HYPER_UNIQUE = 'hyperUnique';
-    const TYPE_DOUBLE_MIN = 'doubleMin';
-    const TYPE_DOUBLE_MAX = 'doubleMax';
-    const TYPE_CURRENCY_SUM = 'currencySum';
-    const TYPE_JAVASCRIPT_SUM = 'javascript';
-    const TYPE_METRIC_OVERRIDER = 'metricOverriderAggregator';
+    /**
+    * put your comment there...
+    * 
+    * @param mixed $name
+    * @param mixed $overriddenMetric
+    * @param mixed $multiplier
+    * @param mixed $selectors: idaffcampaign and __time 
+    * @param mixed $overriddes: new costs and currencies
+    * @param mixed $granularity: default day
+    */
+     
+    public function __construct($name, $overriddenMetric, $multiplier, $selectors, $overriddes, $granularity)
+    {
+        parent::__construct(self::TYPE_METRIC_OVERRIDER, $name, $overriddenMetric, $multiplier, $selectors, $overriddes, $granularity);
+    }
 }
